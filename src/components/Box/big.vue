@@ -3,16 +3,21 @@
     <div
       class="big-box"
       @mouseover="hover = true"
-      @mouseout="hover = false">
+      @mouseout="hover = false"
+    >
       <div class="box-image">
         <img :src="boxImage">
       </div>
       <div class="box-info">
-        <div class="box-title"><span v-html="$t(box.name)"/></div>
-        <div class="box-desc"><span v-html="$t(box.description)"/></div>
+        <div class="box-title">
+          <span v-text="$t(box.name)" />
+        </div>
+        <div class="box-desc">
+          <span v-text="$t(box.description)" />
+        </div>
       </div>
       <div class="box-custom">
-        <slot/>
+        <slot />
       </div>
     </div>
   </el-col>
@@ -23,72 +28,72 @@ export default {
   props: {
     item: {
       type: Object,
-      required: true,
+      required: true
     },
     col: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      hover: false,
-    };
+      hover: false
+    }
   },
   computed: {
     box() {
-      return this.item ? this.item : null;
+      return this.item ? this.item : null
     },
     boxImage() {
     //   return require(this.item.image)
       if (this.hover) {
         if (this.item.site === 'facebook') {
           if (this.item.type === 'twitter_praise') {
-            return require('@/assets/facebook/praise_active.png');
+            return require('@/assets/facebook/praise_active.png')
           } else if (this.item.type === 'twitter_reply') {
-            return require('@/assets/facebook/reply_active.png');
+            return require('@/assets/facebook/reply_active.png')
           } else if (this.item.type === 'twitter_forward') {
-            return require('@/assets/facebook/forward_active.png');
+            return require('@/assets/facebook/forward_active.png')
           }
         } else if (this.item.site === 'twitter') {
           if (this.item.type === 'twitter_praise') {
-            return require('@/assets/twitter/praise_active.png');
+            return require('@/assets/twitter/praise_active.png')
           } else if (this.item.type === 'twitter_reply') {
-            return require('@/assets/twitter/reply_active.png');
+            return require('@/assets/twitter/reply_active.png')
           } else if (this.item.type === 'twitter_forward') {
-            return require('@/assets/twitter/forward_active.png');
+            return require('@/assets/twitter/forward_active.png')
           }
         }
       } else if (this.item.site === 'facebook') {
         if (this.item.type === 'twitter_praise') {
-          return require('@/assets/facebook/praise.png');
+          return require('@/assets/facebook/praise.png')
         } else if (this.item.type === 'twitter_reply') {
-          return require('@/assets/facebook/reply.png');
+          return require('@/assets/facebook/reply.png')
         } else if (this.item.type === 'twitter_forward') {
-          return require('@/assets/facebook/forward.png');
+          return require('@/assets/facebook/forward.png')
         }
       } else if (this.item.site === 'twitter') {
         if (this.item.type === 'twitter_praise') {
-          return require('@/assets/twitter/praise.png');
+          return require('@/assets/twitter/praise.png')
         } else if (this.item.type === 'twitter_reply') {
-          return require('@/assets/twitter/reply.png');
+          return require('@/assets/twitter/reply.png')
         } else if (this.item.type === 'twitter_forward') {
-          return require('@/assets/twitter/forward.png');
+          return require('@/assets/twitter/forward.png')
         }
       }
 
-      // return require('@/assets/facebook/forward.png')
+      return require('@/assets/facebook/forward.png')
     },
     span() {
-      const t = 24;
+      const t = 24
       if (t / this.col === t * 1.0 / this.col) {
         // console.log(t / this.col)
-        return t / this.col;
+        return t / this.col
       }
-      return 8;
-    },
-  },
-};
+      return 8
+    }
+  }
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
     .big-box{

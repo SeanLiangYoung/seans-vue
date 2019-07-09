@@ -4,20 +4,24 @@
       :title="notificationTitle"
       placement="bottom-end"
       width="442"
-      trigger="hover">
+      trigger="hover"
+    >
       <el-button slot="reference">
         <img
           :src="notificationImage"
-          alt="notification">
+          alt="notification"
+        >
       </el-button>
       <el-table
         :data="notificationContent"
         :show-header="false"
-        height="250">
+        height="250"
+      >
         <el-table-column
           width="416"
           property="content"
-          @click="jumpToTasks"/>
+          @click="jumpToTasks"
+        />
       </el-table>
     </el-popover>
   </div>

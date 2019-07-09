@@ -1,19 +1,24 @@
 <template>
   <el-dropdown
     trigger="click"
-    @command="handleSetSize">
+    @command="handleSetSize"
+  >
     <div>
       <svg-icon
         class-name="size-icon"
-        icon-class="size" />
+        icon-class="size"
+      />
     </div>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item
         v-for="item of sizeOptions"
         :key="item.value"
         :disabled="size===item.value"
-        :command="item.value">{{
-        item.label }}</el-dropdown-item>
+        :command="item.value"
+      >
+        {{
+          item.label }}
+      </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>

@@ -12,7 +12,8 @@
         v-for="item in addRoutes"
         :key="item.path"
         :item="item"
-        :base-path="item.path"/>
+        :base-path="item.path"
+      />
     </el-menu>
   </el-scrollbar>
 </template>

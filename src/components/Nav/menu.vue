@@ -7,52 +7,65 @@
       background-color="#313131"
       text-color="#fff"
       active-text-color="#fff"
-      @select="handleSelect">
+      @select="handleSelect"
+    >
       <el-menu-item
         index="1"
-        @click="goto(item.service.url)">
+        @click="goto(item.service.url)"
+      >
         <a>{{ $t(item.service.content) }}</a>
       </el-menu-item>
       <el-submenu index="2">
-        <template slot="title">{{ $t(item.facebook.content) }}</template>
+        <template slot="title">
+          {{ $t(item.facebook.content) }}
+        </template>
         <el-menu-item
           index="2-1"
-          @click="goto(item.facebook.url)">
-          <a >{{ $t(item.facebook.praise) }}</a>
+          @click="goto(item.facebook.url)"
+        >
+          <a>{{ $t(item.facebook.praise) }}</a>
         </el-menu-item>
         <el-menu-item
           index="2-2"
-          @click="goto(item.facebook.url)">
-          <a >{{ $t(item.facebook.reply) }}</a>
+          @click="goto(item.facebook.url)"
+        >
+          <a>{{ $t(item.facebook.reply) }}</a>
         </el-menu-item>
         <el-menu-item
           index="2-3"
-          @click="goto(item.facebook.url)">
-          <a >{{ $t(item.facebook.forward) }}</a>
+          @click="goto(item.facebook.url)"
+        >
+          <a>{{ $t(item.facebook.forward) }}</a>
         </el-menu-item>
       </el-submenu>
       <el-submenu index="3">
-        <template slot="title">{{ $t(item.twitter.content) }}</template>
+        <template slot="title">
+          {{ $t(item.twitter.content) }}
+        </template>
         <el-menu-item
           index="3-1"
-          @click="goto(item.twitter.url)">
-          <a >{{ $t(item.twitter.praise) }}</a>
+          @click="goto(item.twitter.url)"
+        >
+          <a>{{ $t(item.twitter.praise) }}</a>
         </el-menu-item>
         <el-menu-item
           index="3-2"
-          @click="goto(item.twitter.url)">
-          <a >{{ $t(item.twitter.reply) }}</a>
+          @click="goto(item.twitter.url)"
+        >
+          <a>{{ $t(item.twitter.reply) }}</a>
         </el-menu-item>
         <el-menu-item
           index="3-3"
-          @click="goto(item.twitter.url)">
-          <a >{{ $t(item.twitter.forward) }}</a>
+          @click="goto(item.twitter.url)"
+        >
+          <a>{{ $t(item.twitter.forward) }}</a>
         </el-menu-item>
       </el-submenu>
       <el-menu-item
         index="4"
-        @click="goto(item.contact.url)">
-        <a >{{ $t(item.contact.content) }}</a>
+        @click="goto(item.contact.url)"
+      >
+        <a>{{ $t(item.contact.content) }}</a>
       </el-menu-item>
     </el-menu>
   </div>

@@ -7,7 +7,7 @@
       <slot name="menu" />
     </div>
     <div class="right-menu">
-      <slot name="right-menu"/>
+      <slot name="right-menu" />
     </div>
   </section>
 </template>

@@ -3,7 +3,8 @@
     <a href="/">
       <img
         src="/favicon.ico"
-        alt="fm66-logo">
+        alt="fm66-logo"
+      >
       <span class="sub-title">{{ subTitle }}</span>
 
     </a>

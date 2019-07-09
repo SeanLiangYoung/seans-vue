@@ -1,11 +1,12 @@
 <template>
   <div
     :class="classObj"
-    class="app-wrapper">
-    <sidebar class="sidebar-container"/>
+    class="app-wrapper"
+  >
+    <sidebar class="sidebar-container" />
     <div class="main-container">
-      <navbar/>
-      <app-main/>
+      <navbar />
+      <app-main />
     </div>
   </div>
 </template>

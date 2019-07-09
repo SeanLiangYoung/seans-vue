@@ -3,7 +3,7 @@
     <div class="main-container">
       <transition>
         <keep-alive :include="cachedViews">
-          <router-view :key="key"/>
+          <router-view :key="key" />
         </keep-alive>
       </transition>
     </div>
@@ -11,30 +11,30 @@
 </template>
 
 <script>
-import ResizeMixin from './mixin/ResizeHandler';
+import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
   name: 'BlankLayout',
   mixins: [ResizeMixin],
   computed: {
     device() {
-      return this.$store.state.app.device;
+      return this.$store.state.app.device
     },
     classObj() {
       return {
-        mobile: this.device === 'mobile',
-      };
+        mobile: this.device === 'mobile'
+      }
     },
     key() {
-      return this.$route.fullPath;
+      return this.$route.fullPath
     },
     cachedViews() {
-      return this.$store.state.tagsView.cachedViews;
-    },
+      return this.$store.state.tagsView.cachedViews
+    }
   },
   methods: {
   }
-};
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>

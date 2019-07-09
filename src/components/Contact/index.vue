@@ -1,8 +1,12 @@
 <template>
   <el-row class="contact">
     <el-row class="contact-header">
-      <div class="contact-title">{{ title }}</div>
-      <div class="contact-subtitle">{{ subtitle }}</div>
+      <div class="contact-title">
+        {{ title }}
+      </div>
+      <div class="contact-subtitle">
+        {{ subtitle }}
+      </div>
     </el-row>
     <el-row class="contact-form">
       <el-form ref="contact" :model="contact" :rules="contactRules">
@@ -12,16 +16,18 @@
               <el-input
                 v-model="contact.username"
                 :placeholder="getContactUsernamePlaceholder"
-                size="large"/>
+                size="large"
+              />
             </el-form-item>
           </el-col>
-          <el-col :span="1" style="height: 1px;"/>
+          <el-col :span="1" style="height: 1px;" />
           <el-col :span="16">
             <el-form-item prop="email" label="">
               <el-input
                 v-model="contact.email"
                 :placeholder="getContactEmailPlaceholder"
-                size="large"/>
+                size="large"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -36,77 +42,77 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button round type="primary" @click="onSubmit">{{ $t('contact.submit') }}</el-button>
+          <el-button round type="primary" @click="onSubmit">
+            {{ $t('contact.submit') }}
+          </el-button>
         </el-form-item>
       </el-form>
-
     </el-row>
   </el-row>
-
 </template>
 
 <script>
-import { validContactName, validEmail, validContactContent } from '@/utils/validate.js';
-import { getErrorMessage } from '@/utils/errorHandler';
+import { validContactName, validEmail, validContactContent } from '@/utils/validate.js'
+import { getErrorMessage } from '@/utils/errorHandler'
 
 export default {
   name: 'Contact',
   props: {
     title: {
       type: String,
-      default: '',
+      default: ''
     },
     subtitle: {
       type: String,
-      default: '',
+      default: ''
     },
     callback: {
       type: Function,
-      default() {},
-    },
+      default() {}
+    }
   },
   data() {
     const checkUsername = (rule, value, callback) => {
       if (!validContactName(value)) {
-        callback(new Error(this.$t('validation.invalidContactName')));
+        callback(new Error(this.$t('validation.invalidContactName')))
       }
-      callback();
-    };
+      callback()
+    }
     const checkEmail = (rule, value, callback) => {
       if (!validEmail(value)) {
-        callback(new Error(this.$t('validation.invalidEmail')));
+        callback(new Error(this.$t('validation.invalidEmail')))
       }
-      callback();
-    };
+      callback()
+    }
     const checkContent = (rule, value, callback) => {
       if (!validContactContent(value)) {
-        callback(new Error(this.$t('validation.invalidContactContent')));
+        callback(new Error(this.$t('validation.invalidContactContent')))
       }
-      callback();
-    };
+      callback()
+    }
     return {
       contact: {
         username: '',
         email: '',
-        content: '',
+        content: ''
       },
       contactRules: {
         username: [{ validator: checkUsername, required: true, trigger: 'blur' }],
         email: [{ validator: checkEmail, required: true, trigger: 'blur' }],
-        content: [{ validator: checkContent, required: true, trigger: 'blur' }],
-      },
-    };
+        content: [{ validator: checkContent, required: true, trigger: 'blur' }]
+      }
+    }
   },
   computed: {
     getContactUsernamePlaceholder() {
-      return this.$t('contact.username.placeholder');
+      return this.$t('contact.username.placeholder')
     },
     getContactEmailPlaceholder() {
-      return this.$t('contact.email.placeholder');
+      return this.$t('contact.email.placeholder')
     },
     getContactContentPlaceholder() {
-      return this.$t('contact.content.placeholder');
-    },
+      return this.$t('contact.content.placeholder')
+    }
   },
   methods: {
     onSubmit() {
@@ -114,32 +120,32 @@ export default {
       // dispatch
       this.$refs.contact.validate((valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           this.$store.dispatch('Contact', this.contact).then((response) => {
-            this.loading = false;
-            console.log(response);
+            this.loading = false
+            console.log(response)
             this.$message({
               message: response,
-              type: 'success',
-            });
-            this.$refs.contact.resetFields();
+              type: 'success'
+            })
+            this.$refs.contact.resetFields()
           }).catch((code) => {
-            console.log(code);
+            console.log(code)
             // this.$message('error')
             this.$message({
               message: this.$t(getErrorMessage(code)),
-              type: 'error',
-            });
-            this.loading = false;
-          });
+              type: 'error'
+            })
+            this.loading = false
+          })
         } else {
-          console.log('error submit!!');
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

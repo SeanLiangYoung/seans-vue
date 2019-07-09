@@ -6,8 +6,12 @@
           <img :src="boxImage">
         </div>
         <div class="box-info">
-          <div class="box-title"><span v-html="$t(box.name)"/></div>
-          <div class="box-desc"><span v-html="$t(box.description)"/></div>
+          <div class="box-title">
+            <span v-text="$t(box.name)" />
+          </div>
+          <div class="box-desc">
+            <span v-text="$t(box.description)" />
+          </div>
         </div>
       </div>
     </el-col>
@@ -19,36 +23,36 @@ export default {
   props: {
     item: {
       type: Object,
-      required: true,
+      required: true
     },
     col: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
 
-    };
+    }
   },
   computed: {
     box() {
-      return this.item ? this.item : null;
+      return this.item ? this.item : null
     },
     boxImage() {
     //   return require(this.item.image)
-      return require('@/assets/banner/icon.png');
+      return require('@/assets/banner/icon.png')
     },
     span() {
-      const t = 24;
+      const t = 24
       if (t / this.col === t * 1.0 / this.col) {
         // console.log(t / this.col)
-        return t / this.col;
+        return t / this.col
       }
-      return 8;
-    },
-  },
-};
+      return 8
+    }
+  }
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
     .box-sm{

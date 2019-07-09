@@ -1,5 +1,7 @@
 <template>
-  <div class="nav-gap">|</div>
+  <div class="nav-gap">
+    |
+  </div>
 </template>
 <script>
 export default {

@@ -1,41 +1,48 @@
 <template>
   <div
     :class="classObj"
-    class="app-wrapper">
+    class="app-wrapper"
+  >
     <div
       v-if="device==='mobile'"
       class="drawer-bg"
-      @click="handleClickOutside"/>
+      @click="handleClickOutside"
+    />
     <app-header>
       <template slot="left-menu">
         <component
           :is="currentLeftMenu"
           :title="routeTitle"
-          :sub-title="routeSubTitle"/>
+          :sub-title="routeSubTitle"
+        />
       </template>
       <template slot="menu">
         <component
           :is="currentMenu"
-          :items="menuItem"/>
+          :items="menuItem"
+        />
       </template>
       <template slot="right-menu">
         <money v-if="userAlreadyLogin" />
-        <notification v-if="userAlreadyLogin"/>
+        <notification v-if="userAlreadyLogin" />
         <lang-select class="set-language" />
-        <navgap v-if="show"/>
+        <navgap v-if="show" />
         <div
           v-if="userAlreadyLogin"
-          class="login">
+          class="login"
+        >
           <el-dropdown
             placement="bottom-end"
             class="avatar-container right-menu-item hover-effect"
-            trigger="click">
+            trigger="click"
+          >
             <div class="avatar-wrapper">
               <img
                 :src="getAvatar"
                 class="avatar"
-                alt="profile-info-image">
-              <i class="el-icon-caret-bottom"/>
+                alt="profile-info-image"
+              >
+              <i class="el-icon-caret-bottom" />
             </div>
             <el-dropdown-menu slot="dropdown">
               <router-link to="/tasks">
@@ -43,37 +50,42 @@
               </router-link>
               <router-link
                 v-if="userIsAdmin"
-                to="/dashboard">
+                to="/dashboard"
+              >
                 <el-dropdown-item>{{ $t('navbar.dashboard') }}</el-dropdown-item>
               </router-link>
               <el-dropdown-item divided>
                 <span
                   style="display:block;"
-                  @click="logout">{{ $t('navbar.logOut') }}</span>
+                  @click="logout"
+                >{{ $t('navbar.logOut') }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
         <el-row
           v-else
-          class="login">
+          class="login"
+        >
           <el-col :span="12">
             <TextButton
               v-if="show"
               :directed2="loginUrl"
-              :content="$t(loginContent)" />
+              :content="$t(loginContent)"
+            />
           </el-col>
           <el-col :span="12">
             <TextButton
               v-if="show"
               :directed2="registUrl"
-              :content="$t(registContent)"/>
+              :content="$t(registContent)"
+            />
           </el-col>
         </el-row>
       </template>
     </app-header>
-    <app-main/>
-    <app-footer/>
+    <app-main />
+    <app-footer />
   </div>
 </template>
 

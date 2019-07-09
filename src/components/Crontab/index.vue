@@ -2,7 +2,8 @@
   <div
     v-show="true"
     :data="counter"
-    class="crontab"/>
+    class="crontab"
+  />
 </template>
 <script>
 export default {

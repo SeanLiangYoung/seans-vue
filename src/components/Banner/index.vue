@@ -4,15 +4,16 @@
       <img src="https://source.unsplash.com/collection/190727/1920x427">
       <!-- <img :src="bannerImage"> -->
       <div class="banner-image-description">
-        <slot name="banner-description"/>
+        <slot name="banner-description" />
       </div>
     </div>
     <div
       :style="[ contentStyleObject , customStyleObject ]"
-      class="banner-content">
-      <slot name="title"/>
+      class="banner-content"
+    >
+      <slot name="title" />
       <el-row>
-        <slot name="content"/>
+        <slot name="content" />
       </el-row>
     </div>
   </div>
@@ -24,31 +25,31 @@ export default {
   props: {
     contentWidth: {
       type: Number,
-      default: 1200,
+      default: 1200
     },
     contentHeight: {
       type: Number,
-      default: 305,
+      default: 305
     },
     customStyleObject: {
       type: Object,
-      default: null,
-    },
+      default: null
+    }
   },
   computed: {
 
     bannerImage() {
       // return require(this.sectiondata.image)
-      return require('@/assets/banner/banner.png');
+      return require('@/assets/banner/banner.png')
     },
     contentStyleObject() {
       return {
         width: `${this.contentWidth}px`,
-        height: `${this.contentHeight}px`,
-      };
-    },
-  },
-};
+        height: `${this.contentHeight}px`
+      }
+    }
+  }
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .banner-image{

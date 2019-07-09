@@ -6,10 +6,13 @@
     />
     <ul id="list">
       <li
-        v-for="(item, index) in buttons"
-        :class="isActive(index)"
-        :key="index"
-        @click="clickOne(index, $event)">{{ $t(item.name) }}</li>
+        v-for="(item, i) in buttons"
+        :key="i"
+        :class="isActive(i)"
+        @click="clickOne(i, $event)"
+      >
+        {{ $t(item.name) }}
+      </li>
     </ul>
   </div>
 </template>
@@ -20,29 +23,29 @@ export default {
   props: {
     buttons: {
       type: Array,
-      required: true,
+      required: true
     },
     activeIndex: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
   data() {
     return {
       // left: 0,
       index: this.activeIndex,
-      width: 150 - 4,
-    };
+      width: 150 - 4
+    }
   },
   computed: {
     left() {
-      return this.index * this.width;
+      return this.index * this.width
     },
     coverStyle() {
       return {
-        left: `${this.left}px`,
-      };
-    },
+        left: `${this.left}px`
+      }
+    }
   },
 
   methods: {
@@ -50,20 +53,20 @@ export default {
     isActive(index) {
       if (index === this.index) {
         return {
-          active: true,
-        };
+          active: true
+        }
       }
-      return {};
+      return {}
     },
     clickOne(index, e) {
     //   e.nextAll().removeClass('active')
     //   e.prevAll().removeClass('active')
-      this.index = index;
+      this.index = index
       // this.left =
     //   e.addClass('active')
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

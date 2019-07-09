@@ -3,34 +3,37 @@
     <hamburger
       :toggle-click="toggleSideBar"
       :is-active="sidebar.opened"
-      class="hamburger-container"/>
+      class="hamburger-container"
+    />
 
-    <breadcrumb class="breadcrumb-container"/>
+    <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-
-      <screenfull class="right-menu-item hover-effect screenfull"/>
+      <screenfull class="right-menu-item hover-effect screenfull" />
 
       <el-tooltip
         :content="$t('navbar.size')"
         effect="dark"
-        placement="bottom">
-        <size-select class="right-menu-item hover-effect"/>
+        placement="bottom"
+      >
+        <size-select class="right-menu-item hover-effect" />
       </el-tooltip>
 
-      <lang-select class="right-menu-item hover-effect"/>
+      <lang-select class="right-menu-item hover-effect" />
 
       <div class="login right-menu-item">
         <el-dropdown
           placement="bottom-end"
           class="avatar-container right-menu-item hover-effect"
-          trigger="click">
+          trigger="click"
+        >
           <div class="avatar-wrapper">
             <img
               :src="getAvatar"
               class="avatar"
-              alt="profile-info-image">
-            <i class="el-icon-caret-bottom"/>
+              alt="profile-info-image"
+            >
+            <i class="el-icon-caret-bottom" />
           </div>
           <el-dropdown-menu slot="dropdown">
             <router-link to="/tasks">
@@ -42,12 +45,12 @@
             <el-dropdown-item divided>
               <span
                 style="display:block;"
-                @click="logout">{{ $t('navbar.logOut') }}</span>
+                @click="logout"
+              >{{ $t('navbar.logOut') }}</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-
     </div>
   </div>
 </template>

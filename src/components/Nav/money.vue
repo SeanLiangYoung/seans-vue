@@ -6,7 +6,6 @@
         alt="money"> -->
       <span> <svg-icon icon-class="cny" />{{ balance }}</span>
     </a>
-
   </div>
 </template>
 <script>

@@ -30,5 +30,10 @@ npm run lint
 npm run test:unit
 ```
 
+### 分析dist中各组件的大小
+```
+npm run analyze
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

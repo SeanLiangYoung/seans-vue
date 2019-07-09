@@ -1,7 +1,7 @@
 <template>
   <div class="text-button">
     <a :href="directed2"> {{ content }}
-      <slot/>
+      <slot />
     </a>
   </div>
 </template>
