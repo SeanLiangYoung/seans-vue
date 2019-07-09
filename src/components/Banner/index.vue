@@ -1,7 +1,8 @@
 <template>
   <div class="banner-container">
     <div class="banner-image">
-      <img :src="bannerImage">
+      <img src="https://source.unsplash.com/collection/190727/1920x427">
+      <!-- <img :src="bannerImage"> -->
       <div class="banner-image-description">
         <slot name="banner-description"/>
       </div>
@@ -23,31 +24,31 @@ export default {
   props: {
     contentWidth: {
       type: Number,
-      default: 1200
+      default: 1200,
     },
     contentHeight: {
       type: Number,
-      default: 305
+      default: 305,
     },
     customStyleObject: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
 
-    bannerImage () {
+    bannerImage() {
       // return require(this.sectiondata.image)
-      return require('@/assets/banner/banner.png')
+      return require('@/assets/banner/banner.png');
     },
-    contentStyleObject () {
+    contentStyleObject() {
       return {
-        width: this.contentWidth + 'px',
-        height: this.contentHeight + 'px'
-      }
-    }
-  }
-}
+        width: `${this.contentWidth}px`,
+        height: `${this.contentHeight}px`,
+      };
+    },
+  },
+};
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .banner-image{

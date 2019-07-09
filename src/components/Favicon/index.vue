@@ -2,7 +2,7 @@
   <div class="logo-icon">
     <a href="/">
       <img
-        src="/favicon.png"
+        src="/favicon.ico"
         alt="fm66-logo">
       <span class="sub-title">{{ subTitle }}</span>
 

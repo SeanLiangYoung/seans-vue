@@ -11,17 +11,27 @@ const header = {
     url: '/logout',
     content: 'logout'
   },
-  menu1: {
-    url: '#menu1',
-    content: 'menu 1 Content'
+  service: {
+    url: '#service',
+    content: 'service.title'
   },
-  menu2: {
-    url: '#menu2',
-    content: 'menu2.title'
+  facebook: {
+    url: '#facebook',
+    content: 'facebook.title',
+    praise: 'facebook.praise.title',
+    reply: 'facebook.reply.title',
+    forward: 'facebook.forward.title'
   },
-  menu3: {
-    url: '#menu3',
-    content: 'menu3.title'
+  twitter: {
+    url: '#twitter',
+    content: 'twitter.title',
+    praise: 'twitter.praise.title',
+    reply: 'twitter.reply.title',
+    forward: 'twitter.forward.title'
+  },
+  contact: {
+    url: '#contact',
+    content: 'contact.title'
   }
 }
 

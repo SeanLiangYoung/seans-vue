@@ -30,6 +30,9 @@ export default {
   overflow: hidden;
   background-color: #313131;
   display: inline-flex;
+  position: fixed;
+  top: 0px;
+  z-index: 2;
   .menu{
     margin: auto;
   }

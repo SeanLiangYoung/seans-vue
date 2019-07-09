@@ -5,38 +5,38 @@
       <div class="contact-subtitle">{{ subtitle }}</div>
     </el-row>
     <el-row class="contact-form">
-      <el-form ref="contact" :model="contact">
+      <el-form ref="contact" :model="contact" :rules="contactRules">
         <el-row>
           <el-col :span="7">
-            <el-form-item label="">
+            <el-form-item prop="username" label="">
               <el-input
-                v-model="contact.name"
-                placeholder="请在此处留下您的姓名"
+                v-model="contact.username"
+                :placeholder="getContactUsernamePlaceholder"
                 size="large"/>
             </el-form-item>
           </el-col>
           <el-col :span="1" style="height: 1px;"/>
           <el-col :span="16">
-            <el-form-item label="">
+            <el-form-item prop="email" label="">
               <el-input
                 v-model="contact.email"
-                placeholder="请在此处留下您的邮箱"
+                :placeholder="getContactEmailPlaceholder"
                 size="large"/>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="">
+        <el-form-item prop="content" label="">
           <el-input
-            v-model="contact.commit"
+            v-model="contact.content"
             :autosize="{ minRows: 5, maxRows: 10}"
-            placeholder="请在此处留下您的疑问，我们会通过邮件，尽快回复您！"
+            :placeholder="getContactContentPlaceholder"
             type="textarea"
             size="large"
           />
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">问题提交</el-button>
+          <el-button round type="primary" @click="onSubmit">{{ $t('contact.submit') }}</el-button>
         </el-form-item>
       </el-form>
 
@@ -46,37 +46,100 @@
 </template>
 
 <script>
+import { validContactName, validEmail, validContactContent } from '@/utils/validate.js';
+import { getErrorMessage } from '@/utils/errorHandler';
+
 export default {
   name: 'Contact',
   props: {
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     subtitle: {
       type: String,
-      default: ''
+      default: '',
     },
     callback: {
       type: Function,
-      default: function () {}
-    }
+      default() {},
+    },
   },
-  data () {
+  data() {
+    const checkUsername = (rule, value, callback) => {
+      if (!validContactName(value)) {
+        callback(new Error(this.$t('validation.invalidContactName')));
+      }
+      callback();
+    };
+    const checkEmail = (rule, value, callback) => {
+      if (!validEmail(value)) {
+        callback(new Error(this.$t('validation.invalidEmail')));
+      }
+      callback();
+    };
+    const checkContent = (rule, value, callback) => {
+      if (!validContactContent(value)) {
+        callback(new Error(this.$t('validation.invalidContactContent')));
+      }
+      callback();
+    };
     return {
       contact: {
-        name: '',
+        username: '',
         email: '',
-        commit: ''
-      }
-    }
+        content: '',
+      },
+      contactRules: {
+        username: [{ validator: checkUsername, required: true, trigger: 'blur' }],
+        email: [{ validator: checkEmail, required: true, trigger: 'blur' }],
+        content: [{ validator: checkContent, required: true, trigger: 'blur' }],
+      },
+    };
+  },
+  computed: {
+    getContactUsernamePlaceholder() {
+      return this.$t('contact.username.placeholder');
+    },
+    getContactEmailPlaceholder() {
+      return this.$t('contact.email.placeholder');
+    },
+    getContactContentPlaceholder() {
+      return this.$t('contact.content.placeholder');
+    },
   },
   methods: {
-    onSubmit: function () {
-      console.log(this.contact)
-    }
-  }
-}
+    onSubmit() {
+      // validate
+      // dispatch
+      this.$refs.contact.validate((valid) => {
+        if (valid) {
+          this.loading = true;
+          this.$store.dispatch('Contact', this.contact).then((response) => {
+            this.loading = false;
+            console.log(response);
+            this.$message({
+              message: response,
+              type: 'success',
+            });
+            this.$refs.contact.resetFields();
+          }).catch((code) => {
+            console.log(code);
+            // this.$message('error')
+            this.$message({
+              message: this.$t(getErrorMessage(code)),
+              type: 'error',
+            });
+            this.loading = false;
+          });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -122,6 +185,9 @@ export default {
         margin: 54px 435px 114px;
         height: 50px;
         width: 330px;
+      }
+      .el-form-item {
+        margin-bottom: 30px;
       }
     }
 }

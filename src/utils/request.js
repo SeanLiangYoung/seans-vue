@@ -2,48 +2,48 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-// import { encrypt, decrypt } from '@/utils/crypt'
-import encrypt from '@/utils/crypt'
+import { encrypt/* , decrypt */ } from '@/utils/crypt'
 
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.BASE_API, // api 的 base_url
-  timeout: 10000 // request timeout
+  // timeout: 5 * 60 * 1000 // request timeout
+  timeout: 15 * 1000 // request timeout
 })
 
 // request interceptor
 service.interceptors.request.use(
-  request => {
+  (request) => {
     const REQUEST_DATA = request.data
     // Do something before request is sent
     if (store.getters.token) {
       // 让每个请求携带token-- ['X-Token']
       request.headers['X-Token'] = getToken()
-      request.headers['Accept'] = 'application/json, text/plain, */*'
+      request.headers.Accept = 'application/json, text/plain, */*'
       // request.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     }
     if (process.env.ECRYPT) {
       request.data = encrypt(REQUEST_DATA)
     }
-    console.log('request: ', request)
+    // console.log('request: ', request)
     return request
   },
-  error => {
+  (error) => {
     // Do something with request error
-    console.log('request error: ', error) // for debug
+    // console.log('request error: ', error) // for debug
     Promise.reject(error)
-  }
+  },
 )
 
 // response interceptor
 service.interceptors.response.use(
   // response => response,
-  response => {
+  (response) => {
     // const RESPONSE_DATA = response.data
     if (process.env.ECRYPT) {
       // response.data = decrypt(RESPONSE_DATA)
     }
-    console.log('response: ', response)
+    // console.log('response: ', response)
     return response
   },
   /**
@@ -79,15 +79,21 @@ service.interceptors.response.use(
   //     return response.data
   //   }
   // },
-  error => {
-    console.log('response error: ' + error) // for debug
-    Message({
-      message: error.response.data.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
-  }
+  (error) => {
+    const originalRequest = error.config
+    if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1 && !originalRequest._retry) {
+      // 重试
+      // originalRequest._retry = true
+      // return axios.request(originalRequest);
+      Message({
+        message: 'Request timeout！Please try again.',
+        type: 'error',
+        duration: 5 * 1000
+      })
+    } else {
+      Promise.reject(error)
+    }
+  },
 )
 
 export default service

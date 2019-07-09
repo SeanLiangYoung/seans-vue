@@ -1,6 +1,6 @@
-# seans-vue
+# seans vue V1.0.1
 
-> A Vue Project based on vue-element-admin
+> seans vue
 
 ## Build Setup
 
@@ -12,16 +12,16 @@ npm install
 npm run dev
 
 # build for production with minification
-npm run build
+npm run build:prod
 
 # build for production and view the bundle analyzer report
-npm run build --report
+npm run start
 
-# run unit tests
-npm run unit
+# 规范并修复代码格式
+npm run lint
 
-# run all tests
-npm test
+# 分析dist中的内容的大小
+npm run analyze
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

@@ -11,30 +11,30 @@
 </template>
 
 <script>
-import ResizeMixin from './mixin/ResizeHandler'
+import ResizeMixin from './mixin/ResizeHandler';
 
 export default {
   name: 'BlankLayout',
   mixins: [ResizeMixin],
   computed: {
-    device () {
-      return this.$store.state.app.device
+    device() {
+      return this.$store.state.app.device;
     },
-    classObj () {
+    classObj() {
       return {
-        mobile: this.device === 'mobile'
-      }
+        mobile: this.device === 'mobile',
+      };
     },
-    key () {
-      return this.$route.fullPath
+    key() {
+      return this.$route.fullPath;
     },
-    cachedViews () {
-      return this.$store.state.tagsView.cachedViews
-    }
+    cachedViews() {
+      return this.$store.state.tagsView.cachedViews;
+    },
   },
   methods: {
   }
-}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
@@ -43,14 +43,13 @@ export default {
     @include clearfix;
     position: relative;
     width: 100%;
-    background-color: #c7c7c7;
+    background-color: #f7f7f7;
   }
   .drawer-bg {
     background: #000;
     opacity: 0.3;
     width: 100%;
     top: 0;
-    height: 100%;
     position: absolute;
     z-index: 999;
   }

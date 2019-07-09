@@ -6,7 +6,7 @@
     />
     <ul id="list">
       <li
-        v-for="(item, index) in buttonItems"
+        v-for="(item, index) in buttons"
         :class="isActive(index)"
         :key="index"
         @click="clickOne(index, $event)">{{ $t(item.name) }}</li>
@@ -19,46 +19,51 @@ export default {
   name: 'ButtonSilder',
   props: {
     buttons: {
-      type: Object,
-      required: true
-    }
+      type: Array,
+      required: true,
+    },
+    activeIndex: {
+      type: Number,
+      default: 0,
+    },
   },
-  data: function () {
+  data() {
     return {
-      index: 0,
-      left: 0,
-      width: 150 - 4
-    }
+      // left: 0,
+      index: this.activeIndex,
+      width: 150 - 4,
+    };
   },
   computed: {
-    coverStyle () {
-      return {
-        left: this.left + 'px'
-      }
+    left() {
+      return this.index * this.width;
     },
-    buttonItems () {
-      return this.buttons.item
-    }
+    coverStyle() {
+      return {
+        left: `${this.left}px`,
+      };
+    },
   },
+
   methods: {
 
-    isActive (index) {
+    isActive(index) {
       if (index === this.index) {
         return {
-          active: true
-        }
+          active: true,
+        };
       }
-      return {}
+      return {};
     },
-    clickOne (index, e) {
+    clickOne(index, e) {
     //   e.nextAll().removeClass('active')
     //   e.prevAll().removeClass('active')
-      this.index = index
-      this.left = index * this.width
+      this.index = index;
+      // this.left =
     //   e.addClass('active')
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

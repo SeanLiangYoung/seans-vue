@@ -14,11 +14,15 @@ const app = {
     },
     device: 'desktop',
     // language: Cookies.get('language') || 'zh',
-    language: 'zh',
-    size: Cookies.get('size') || 'medium'
+    language: Cookies.get('language') || 'zh',
+    size: Cookies.get('size') || 'medium',
+    activityMenu: '1'
   },
   mutations: {
-    TOGGLE_SIDEBAR: state => {
+    SET_ACTIVITY_NAVMENU: (state, id) => {
+      state.activityMenu = id
+    },
+    TOGGLE_SIDEBAR: (state) => {
       state.sidebar.opened = !state.sidebar.opened
       state.sidebar.withoutAnimation = false
       if (state.sidebar.opened) {
@@ -45,19 +49,19 @@ const app = {
     }
   },
   actions: {
-    toggleSideBar ({ commit }) {
+    toggleSideBar({ commit }) {
       commit('TOGGLE_SIDEBAR')
     },
-    closeSideBar ({ commit }, { withoutAnimation }) {
+    closeSideBar({ commit }, { withoutAnimation }) {
       commit('CLOSE_SIDEBAR', withoutAnimation)
     },
-    toggleDevice ({ commit }, device) {
+    toggleDevice({ commit }, device) {
       commit('TOGGLE_DEVICE', device)
     },
-    setLanguage ({ commit }, language) {
+    setLanguage({ commit }, language) {
       commit('SET_LANGUAGE', language)
     },
-    setSize ({ commit }, size) {
+    setSize({ commit }, size) {
       commit('SET_SIZE', size)
     }
   }

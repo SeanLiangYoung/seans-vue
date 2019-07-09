@@ -2,7 +2,7 @@
  * Created by jiachenpan on 16/11/18.
  */
 
-export function parseTime (time, cFormat) {
+export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
   }
@@ -15,7 +15,7 @@ export function parseTime (time, cFormat) {
       time = parseInt(time)
     }
     if ((typeof time === 'number') && (time.toString().length === 10)) {
-      time = time * 1000
+      time *= 1000
     }
     date = new Date(time)
   }
@@ -28,19 +28,19 @@ export function parseTime (time, cFormat) {
     s: date.getSeconds(),
     a: date.getDay()
   }
-  const timeStr = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+  const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return [ '日', '一', '二', '三', '四', '五', '六' ][ value ] }
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
     if (result.length > 0 && value < 10) {
-      value = '0' + value
+      value = `0${value}`
     }
     return value || 0
   })
-  return timeStr
+  return time_str
 }
 
-export function formatTime (time, option) {
+export function formatTime(time, option) {
   time = +time * 1000
   const d = new Date(time)
   const now = Date.now()
@@ -51,31 +51,30 @@ export function formatTime (time, option) {
     return '刚刚'
   } else if (diff < 3600) {
     // less 1 hour
-    return Math.ceil(diff / 60) + '分钟前'
+    return `${Math.ceil(diff / 60)}分钟前`
   } else if (diff < 3600 * 24) {
-    return Math.ceil(diff / 3600) + '小时前'
+    return `${Math.ceil(diff / 3600)}小时前`
   } else if (diff < 3600 * 24 * 2) {
     return '1天前'
   }
   if (option) {
     return parseTime(time, option)
-  } else {
-    return (
-      d.getMonth() +
-      1 +
-      '月' +
-      d.getDate() +
-      '日' +
-      d.getHours() +
-      '时' +
-      d.getMinutes() +
-      '分'
-    )
   }
+  return (
+    `${d.getMonth() +
+      1
+    }月${
+      d.getDate()
+    }日${
+      d.getHours()
+    }时${
+      d.getMinutes()
+    }分`
+  )
 }
 
 // 格式化时间
-export function getQueryObject (url) {
+export function getQueryObject(url) {
   url = url == null ? window.location.href : url
   const search = url.substring(url.lastIndexOf('?') + 1)
   const obj = {}
@@ -94,21 +93,21 @@ export function getQueryObject (url) {
  * @param {Sting} input value
  * @returns {number} output value
  */
-export function byteLength (str) {
+export function byteLength(str) {
   // returns the byte length of an utf8 string
   let s = str.length
-  for (var i = str.length - 1; i >= 0; i--) {
+  for (let i = str.length - 1; i >= 0; i -= 1) {
     const code = str.charCodeAt(i)
-    if (code > 0x7f && code <= 0x7ff) s++
+    if (code > 0x7f && code <= 0x7ff) s += 1
     else if (code > 0x7ff && code <= 0xffff) s += 2
-    if (code >= 0xDC00 && code <= 0xDFFF) i--
+    if (code >= 0xDC00 && code <= 0xDFFF) i -= 1
   }
   return s
 }
 
-export function cleanArray (actual) {
+export function cleanArray(actual) {
   const newArray = []
-  for (let i = 0; i < actual.length; i++) {
+  for (let i = 0; i < actual.length; i += 1) {
     if (actual[i]) {
       newArray.push(actual[i])
     }
@@ -116,38 +115,38 @@ export function cleanArray (actual) {
   return newArray
 }
 
-export function param (json) {
+export function param(json) {
   if (!json) return ''
   return cleanArray(
-    Object.keys(json).map(key => {
+    Object.keys(json).map((key) => {
       if (json[key] === undefined) return ''
-      return encodeURIComponent(key) + '=' + encodeURIComponent(json[key])
-    })
+      return `${encodeURIComponent(key)}=${encodeURIComponent(json[key])}`
+    }),
   ).join('&')
 }
 
-export function param2Obj (url) {
+export function param2Obj(url) {
   const search = url.split('?')[1]
   if (!search) {
     return {}
   }
   return JSON.parse(
-    '{"' +
+    `{"${
       decodeURIComponent(search)
         .replace(/"/g, '\\"')
         .replace(/&/g, '","')
-        .replace(/=/g, '":"') +
-      '"}'
+        .replace(/=/g, '":"')
+    }"}`,
   )
 }
 
-export function html2Text (val) {
+export function html2Text(val) {
   const div = document.createElement('div')
   div.innerHTML = val
   return div.textContent || div.innerText
 }
 
-export function objectMerge (target, source) {
+export function objectMerge(target, source) {
   /* Merges two  objects,
      giving the last one precedence */
 
@@ -157,7 +156,7 @@ export function objectMerge (target, source) {
   if (Array.isArray(source)) {
     return source.slice()
   }
-  Object.keys(source).forEach(property => {
+  Object.keys(source).forEach((property) => {
     const sourceProperty = source[property]
     if (typeof sourceProperty === 'object') {
       target[property] = objectMerge(target[property], sourceProperty)
@@ -168,14 +167,14 @@ export function objectMerge (target, source) {
   return target
 }
 
-export function toggleClass (element, className) {
+export function toggleClass(element, className) {
   if (!element || !className) {
     return
   }
   let classString = element.className
   const nameIndex = classString.indexOf(className)
   if (nameIndex === -1) {
-    classString += '' + className
+    classString += `${className}`
   } else {
     classString =
       classString.substr(0, nameIndex) +
@@ -187,7 +186,7 @@ export function toggleClass (element, className) {
 export const pickerOptions = [
   {
     text: '今天',
-    onClick (picker) {
+    onClick(picker) {
       const end = new Date()
       const start = new Date(new Date().toDateString())
       end.setTime(start.getTime())
@@ -196,45 +195,48 @@ export const pickerOptions = [
   },
   {
     text: '最近一周',
-    onClick (picker) {
+    onClick(picker) {
       const end = new Date(new Date().toDateString())
       const start = new Date()
-      start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
+      start.setTime(end.getTime() - (3600 * 1000 * 24 * 7))
       picker.$emit('pick', [start, end])
     }
   },
   {
     text: '最近一个月',
-    onClick (picker) {
+    onClick(picker) {
       const end = new Date(new Date().toDateString())
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      start.setTime(start.getTime() - (3600 * 1000 * 24 * 30))
       picker.$emit('pick', [start, end])
     }
   },
   {
     text: '最近三个月',
-    onClick (picker) {
+    onClick(picker) {
       const end = new Date(new Date().toDateString())
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+      start.setTime(start.getTime() - (3600 * 1000 * 24 * 90))
       picker.$emit('pick', [start, end])
     }
   }
 ]
 
-export function getTime (type) {
+export function getTime(type) {
   if (type === 'start') {
-    return new Date().getTime() - 3600 * 1000 * 24 * 90
-  } else {
-    return new Date(new Date().toDateString())
+    return new Date().getTime() - (3600 * 1000 * 24 * 90)
   }
+  return new Date(new Date().toDateString())
 }
 
-export function debounce (func, wait, immediate) {
-  let timeout, args, context, timestamp, result
+export function debounce(func, wait, immediate) {
+  let timeout,
+    args,
+    context,
+    timestamp,
+    result
 
-  const later = function () {
+  const later = function() {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -251,7 +253,7 @@ export function debounce (func, wait, immediate) {
     }
   }
 
-  return function (...args) {
+  return function(...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -271,12 +273,12 @@ export function debounce (func, wait, immediate) {
  * Has a lot of edge cases bug
  * If you want to use a perfect deep copy, use lodash's _.cloneDeep
  */
-export function deepClone (source) {
+export function deepClone(source) {
   if (!source && typeof source !== 'object') {
     throw new Error('error arguments', 'shallowClone')
   }
   const targetObj = source.constructor === Array ? [] : {}
-  Object.keys(source).forEach(keys => {
+  Object.keys(source).forEach((keys) => {
     if (source[keys] && typeof source[keys] === 'object') {
       targetObj[keys] = deepClone(source[keys])
     } else {
@@ -286,12 +288,74 @@ export function deepClone (source) {
   return targetObj
 }
 
-export function uniqueArr (arr) {
+export function uniqueArr(arr) {
   return Array.from(new Set(arr))
 }
 
-export function createUniqueString () {
-  const timestamp = +new Date() + ''
-  const randomNum = parseInt((1 + Math.random()) * 65536) + ''
+export function createUniqueString() {
+  const timestamp = `${+new Date()}`
+  const randomNum = `${parseInt((1 + Math.random()) * 65536)}`
   return (+(randomNum + timestamp)).toString(32)
+}
+
+// 判断两个 Object 值是否相同
+export function isObjectValueEqual(a, b) {
+  const aProps = Object.getOwnPropertyNames(a)
+  const bProps = Object.getOwnPropertyNames(b)
+  if (aProps.length !== bProps.length) {
+    return false
+  }
+  for (let i = 0; i < aProps.length; i += 1) {
+    const propName = aProps[i]
+
+    const propA = a[propName]
+    const propB = b[propName]
+    if (propA !== propB) {
+      if ((typeof (propA) === 'object')) {
+        if (this.isObjectValueEqual(propA, propB)) {
+          return true
+        }
+        return false
+      }
+      return false
+    }
+    return false
+  }
+  return true
+}
+
+// 浮点数格式化
+export function numberFormat(number, decimals, decPoint, thousandsSep, roundtag) {
+  /*
+    * 参数说明：
+    * number：要格式化的数字
+    * decimals：保留几位小数
+    * decPoint：小数点符号
+    * thousandsSep：千分位符号
+    * roundtag:舍入参数，默认 "ceil" 向上取,"floor"向下取,"round" 四舍五入
+    * */
+  /* eslint-disable no-restricted-properties */
+  /* eslint-disable no-param-reassign */
+  number = (`${number}`).replace(/[^0-9+-Ee.]/g, '')
+  roundtag = roundtag || 'ceil' // "ceil","floor","round"
+  const n = !isFinite(+number) ? 0 : +number
+  const prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
+  const sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
+  const dec = (typeof decPoint === 'undefined') ? '.' : decPoint
+  let s = ''
+  const toFixedFix = function(o, m) {
+    const k = Math.pow(10, m)
+    return `${parseFloat(Math[roundtag](parseFloat((o * k).toFixed(m * 2))).toFixed(m * 2)) / k}`
+  }
+  s = (prec ? toFixedFix(n, prec) : `${Math.round(n)}`).split('.')
+  const re = /(-?\d+)(\d{3})/
+  while (re.test(s[0])) {
+    s[0] = s[0].replace(re, `$1${sep}$2`)
+  }
+
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || ''
+    s[1] += new Array((prec - s[1].length) + 1).join('0')
+  }
+  return s.join(dec)
 }
