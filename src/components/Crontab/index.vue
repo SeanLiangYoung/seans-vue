@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-show="true"
-    :data="counter"
-    class="crontab"
-  />
+  <div v-show="true" :data="counter" class="crontab" />
 </template>
 <script>
 export default {
@@ -17,8 +13,7 @@ export default {
     // 每次请求的callback
     callback: {
       type: Function,
-      default() {
-        console.log('Corntab Default Callback, this: ', this)
+      default: function() {
       }
     },
     // dispatch 名
@@ -29,22 +24,20 @@ export default {
     // dispatch 传入的数据
     dispatchData: {
       type: Object,
-      default() {
+      default: function() {
         return { }
       }
     },
     // dispatch 成功的回调
     dispatchOnSuccess: {
       type: Function,
-      default() {
-        console.log('Dispatch Success Callback, this: ', this)
+      default: function() {
       }
     },
     // dispatch 失败的回调
     dispatchOnFailed: {
       type: Function,
-      default() {
-        console.log('Dispatch Failed Callback, this: ', this)
+      default: function() {
       }
     },
     // 停止的标志
@@ -53,14 +46,14 @@ export default {
       default: false
     }
   },
-  data() {
+  data: function() {
     return {
       counter: 0
     }
   },
   watch: {
-    counter() {
-      this.counterCallbak()
+    counter: function() {
+      this._callback()
     }
   },
   mounted() {
@@ -84,14 +77,14 @@ export default {
         self.onDispatch()
         const timer = setInterval(function() {
           self.onDispatch()
-          this.counter += 1
-          if (this.stop) {
+          this.counter++
+          if (self.stop) {
             clearInterval(timer)
           }
         }, self.interval)
       }
     },
-    counterCallbak() {
+    _callback() {
       if (this.callback && this.callback instanceof Function) {
         this.callback(...this)
       }

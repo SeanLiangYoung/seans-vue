@@ -1,14 +1,10 @@
 <template>
-  <svg
-    :class="svgClass"
-    aria-hidden="true"
-    v-on="$listeners"
-  >
+  <svg :class="svgClass" aria-hidden="true">
     <use :xlink:href="iconName" />
   </svg>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 export default {
   name: 'SvgIcon',
   props: {
@@ -27,20 +23,22 @@ export default {
     },
     svgClass() {
       if (this.className) {
-        return `svg-icon ${this.className}`
+        return 'svg-icon ' + this.className
+      } else {
+        return 'svg-icon'
       }
-      return 'svg-icon'
     }
   }
 }
 </script>
 
-<style scoped>
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
+<style scoped lang="scss">
+  .svg-icon {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+    // padding-right: 6px;
+  }
 </style>

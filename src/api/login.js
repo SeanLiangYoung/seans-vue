@@ -1,14 +1,8 @@
 import request from '@/utils/request'
 
-const baseUrl = `/login/${process.env.API_VERSION}`
-
-export function loginByUsername(username, password) {
-  const data = {
-    username,
-    password
-  }
+export function login(data) {
   return request({
-    url: `${baseUrl}/confirm`,
+    url: '/login',
     method: 'post',
     data
   })
@@ -16,7 +10,7 @@ export function loginByUsername(username, password) {
 
 export function logout() {
   return request({
-    url: `${baseUrl}/logout`,
-    method: 'get'
+    url: '/logout',
+    method: 'post'
   })
 }

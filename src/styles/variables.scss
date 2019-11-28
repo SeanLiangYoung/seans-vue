@@ -1,34 +1,32 @@
-// base color
-$blue:#324157;
-$light-blue:#3A71A8;
-$red:#C03639;
-$pink: #E65D6E;
-$green: #30B08F;
-$tiffany: #4AB7BD;
-$yellow:#FEC171;
-$panGreen: #30B08F;
+// 背景色定义规范
+$background-color-deep: #282b39;
+$background-input-color-deep: #32374a;
+$background-scrollbar-thumb-color-deep: #4D5A72;
+$background-block-color-deep: #4795e7;
+$background-table-color-deep: #2c2f3e;
+$background-table-row-hover-color-deep: #20222e;
 
-//sidebar
-$menuText:#bfcbd9;
-$menuActiveText:#3c81e9;
-$subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
+// 字体颜色定义规范
+$color-text-deep: #9da7a9;
+$color-text-light-deep: #7ca5cc;
+$color-text-highlight-deep: #4795e7;
+$color-text-ll-deep: #bfc0c4;
+$color-text-select-deep: rgba(157,167,169,0.4);
+$color-text-white: #fff;
 
-$menuBg:#304156;
-$menuHover:#263445;
+// 边框颜色定义规范
+$color-border-deep: #25252f;
 
-$subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
+//舆材库 共n条舆材 数量颜色 
+$background-corpus-count-color: #f0946d;
+//舆材库 添加舆材 导入按钮 背景色
+$background-corpus-import-color-deep: #212432;
+//舆材库 添加舆材 错误提示 
+$background-corpus-error-color: #dc7a81;
 
-$sideBarWidth: 180px;
+//标签被选择后背景颜色和字体颜色
+$background-color-tags-disabled: #212432;
+$font-color-tags-disabled: #39485c;
 
-// the :export directive is the magic sauce for webpack
-:export {
-  menuText: $menuText;
-  menuActiveText: $menuActiveText;
-  subMenuActiveText: $subMenuActiveText;
-  menuBg: $menuBg;
-  menuHover: $menuHover;
-  subMenuBg: $subMenuBg;
-  subMenuHover: $subMenuHover;
-  sideBarWidth: $sideBarWidth;
-}
+//日期禁止点击 文字颜色
+$font-color-date-disabled: #3b404d;

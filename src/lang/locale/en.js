@@ -1,12 +1,26 @@
 export default {
   error: {
-    1001: 'Wrong user name or password',
-    1002: 'Your balance is insufficient, please contact the staff to recharge first',
-    2001: 'Wrong verification code',
-    2002: 'This Email is already occupied',
-    2003: 'This phone number is already occupied',
-    2015: 'Token is invalid or non-existent,Please login again',
-    4001: 'Unknown error,Task delivery failed!'
+    10001: 'Token expire',
+    10002: 'Wrong request params',
+    10003: 'Upload failed',
+    10004: 'Error password format',
+    10005: 'This user does not exist',
+
+    10101: 'Wrong username or password',
+    10102: 'User has been locked',
+
+    10201: 'User name duplicated',
+    10202: 'Dept name duplicated',
+    10203: 'Role name duplicated',
+    10204: 'Menu name duplicated',
+    10206: 'Repetition of firstname or lastname',
+
+    10401: 'Old password error',
+    10208: 'The name already exists, please re-enter',
+    10209: 'The number of task names that can be created by this department is full',
+    10501: 'Tag exist already',
+    10502: 'Tag not exist',
+    10207: 'The mailbox already exists. Please re-enter it'
   },
   success: 'Operation success!',
   validation: {

@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import Cookies from 'js-cookie'
+import { getUserLanguage } from '@/utils/localData'
 import elementEnLocale from 'element-ui/lib/locale/lang/en' // element-ui lang
 import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'// element-ui lang
-import elementEsLocale from 'element-ui/lib/locale/lang/es'// element-ui lang
 import enLocale from './locale/en'
 import zhLocale from './locale/zh'
-import esLocale from './locale/es'
 
 Vue.use(VueI18n)
 
@@ -18,19 +16,29 @@ const messages = {
   zh: {
     ...zhLocale,
     ...elementZhLocale
-  },
-  es: {
-    ...esLocale,
-    ...elementEsLocale
   }
 }
 
 const i18n = new VueI18n({
   // set locale
-  // options: en | zh | es
-  locale: Cookies.get('language') || 'zh',
-  // set locale messages
+  locale: 'zh',
+  // locale: getUserLanguage() || process.env.VUE_APP_I18N_LOCALE || 'en',
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  // set locale message
   messages
 })
 
 export default i18n
+
+// function loadLocaleMessages () {
+//   const locales = require.context('./locale', true, /[A-Za-z0-9-_,\s]+\.json$/i)
+//   const messages = {}
+//   locales.keys().forEach(key => {
+//     const matched = key.match(/([A-Za-z0-9-_]+)\./i)
+//     if (matched && matched.length > 1) {
+//       const locale = matched[1]
+//       messages[locale] = locales(key)
+//     }
+//   })
+//   return messages
+// }

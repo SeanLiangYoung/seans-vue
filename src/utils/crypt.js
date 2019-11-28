@@ -15,7 +15,7 @@ export function decrypt(word) {
 // 加密方法
 export function encrypt(word) {
   const srcs = CryptoJS.enc.Utf8.parse(JSON.stringify(word))
-  let encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 })
+  var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 })
   encrypted = encrypted.ciphertext.toString(CryptoJS.enc.Hex)
   return encrypted
 }

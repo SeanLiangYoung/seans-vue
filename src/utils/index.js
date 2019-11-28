@@ -1,361 +1,136 @@
+// import { decrypt, encrypt } from '@/utils/crypt'
 /**
- * Created by jiachenpan on 16/11/18.
- */
-
-export function parseTime(time, cFormat) {
-  if (arguments.length === 0) {
-    return null
+ * 用来获取和设置localStorage存储
+ * 为 localstorge中的内容加密
+ **/
+export const local = {
+  save(key, value) {
+    // localStorage.setItem(key, encrypt(JSON.stringify(value)))
+    localStorage.setItem(key, JSON.stringify(value))
+  },
+  fetch(key) {
+    // let word = localStorage.getItem(key) ? JSON.parse(decrypt(localStorage.getItem(key))) : '{}'
+    // return JSON.parse(word)
+    return JSON.parse(localStorage.getItem(key)) || {}
+  },
+  remove(key) {
+    localStorage.removeItem(key)
+  },
+  clear() {
+    localStorage.clear()
   }
-  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
-  let date
-  if (typeof time === 'object') {
-    date = time
-  } else {
-    if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
-      time = parseInt(time)
-    }
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
-      time *= 1000
-    }
-    date = new Date(time)
-  }
-  const formatObj = {
-    y: date.getFullYear(),
-    m: date.getMonth() + 1,
-    d: date.getDate(),
-    h: date.getHours(),
-    i: date.getMinutes(),
-    s: date.getSeconds(),
-    a: date.getDay()
-  }
-  const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
-    let value = formatObj[key]
-    // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
-    if (result.length > 0 && value < 10) {
-      value = `0${value}`
-    }
-    return value || 0
-  })
-  return time_str
 }
-
-export function formatTime(time, option) {
-  time = +time * 1000
-  const d = new Date(time)
-  const now = Date.now()
-
-  const diff = (now - d) / 1000
-
-  if (diff < 30) {
-    return '刚刚'
-  } else if (diff < 3600) {
-    // less 1 hour
-    return `${Math.ceil(diff / 60)}分钟前`
-  } else if (diff < 3600 * 24) {
-    return `${Math.ceil(diff / 3600)}小时前`
-  } else if (diff < 3600 * 24 * 2) {
-    return '1天前'
-  }
-  if (option) {
-    return parseTime(time, option)
-  }
-  return (
-    `${d.getMonth() +
-      1
-    }月${
-      d.getDate()
-    }日${
-      d.getHours()
-    }时${
-      d.getMinutes()
-    }分`
-  )
-}
-
-// 格式化时间
-export function getQueryObject(url) {
-  url = url == null ? window.location.href : url
-  const search = url.substring(url.lastIndexOf('?') + 1)
-  const obj = {}
-  const reg = /([^?&=]+)=([^?&=]*)/g
-  search.replace(reg, (rs, $1, $2) => {
-    const name = decodeURIComponent($1)
-    let val = decodeURIComponent($2)
-    val = String(val)
-    obj[name] = val
-    return rs
-  })
-  return obj
-}
-
-/**
- * @param {Sting} input value
- * @returns {number} output value
- */
-export function byteLength(str) {
-  // returns the byte length of an utf8 string
-  let s = str.length
-  for (let i = str.length - 1; i >= 0; i -= 1) {
-    const code = str.charCodeAt(i)
-    if (code > 0x7f && code <= 0x7ff) s += 1
-    else if (code > 0x7ff && code <= 0xffff) s += 2
-    if (code >= 0xDC00 && code <= 0xDFFF) i -= 1
-  }
-  return s
-}
-
-export function cleanArray(actual) {
-  const newArray = []
-  for (let i = 0; i < actual.length; i += 1) {
-    if (actual[i]) {
-      newArray.push(actual[i])
-    }
-  }
-  return newArray
-}
-
-export function param(json) {
-  if (!json) return ''
-  return cleanArray(
-    Object.keys(json).map((key) => {
-      if (json[key] === undefined) return ''
-      return `${encodeURIComponent(key)}=${encodeURIComponent(json[key])}`
-    }),
-  ).join('&')
-}
-
-export function param2Obj(url) {
-  const search = url.split('?')[1]
-  if (!search) {
-    return {}
-  }
-  return JSON.parse(
-    `{"${
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-    }"}`,
-  )
-}
-
-export function html2Text(val) {
-  const div = document.createElement('div')
-  div.innerHTML = val
-  return div.textContent || div.innerText
-}
-
-export function objectMerge(target, source) {
-  /* Merges two  objects,
-     giving the last one precedence */
-
-  if (typeof target !== 'object') {
-    target = {}
-  }
-  if (Array.isArray(source)) {
-    return source.slice()
-  }
-  Object.keys(source).forEach((property) => {
-    const sourceProperty = source[property]
-    if (typeof sourceProperty === 'object') {
-      target[property] = objectMerge(target[property], sourceProperty)
+export function isTagsShow() { // 判断是否展示标签
+  const doms = document.querySelectorAll('.el-table__row')
+  doms.forEach(item => {
+    const len = item.querySelector('.tagsLen').innerHTML
+    const domCell = item
+      .querySelector('.el-table__expand-column')
+      .querySelector('.cell')
+    if (len > 0) {
+      domCell.style.display = 'block'
     } else {
-      target[property] = sourceProperty
+      domCell.style.display = 'none'
     }
   })
-  return target
 }
 
-export function toggleClass(element, className) {
-  if (!element || !className) {
-    return
-  }
-  let classString = element.className
-  const nameIndex = classString.indexOf(className)
-  if (nameIndex === -1) {
-    classString += `${className}`
-  } else {
-    classString =
-      classString.substr(0, nameIndex) +
-      classString.substr(nameIndex + className.length)
-  }
-  element.className = classString
+// 字符串截取
+export function strSlice(str, length) {
+  if (str.length <= length) return str
+  return str.slice(0, length) + '...'
 }
 
-export const pickerOptions = [
-  {
-    text: '今天',
-    onClick(picker) {
-      const end = new Date()
-      const start = new Date(new Date().toDateString())
-      end.setTime(start.getTime())
-      picker.$emit('pick', [start, end])
+// 开始结束区间判断赋值
+export function startEndNum(form) {
+  for (const key in form) {
+    if (key.includes('start') && !key.includes('Time')) {
+      const otherKey = key.replace('start', 'end')
+      const startVal = form[key]
+      const endVal = form[otherKey]
+      if (startVal !== undefined && endVal === undefined) {
+        form[otherKey] = startVal
+      }
+      if (endVal !== undefined && startVal === undefined) {
+        form[key] = endVal
+      }
     }
-  },
-  {
-    text: '最近一周',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(end.getTime() - (3600 * 1000 * 24 * 7))
-      picker.$emit('pick', [start, end])
-    }
-  },
-  {
-    text: '最近一个月',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(start.getTime() - (3600 * 1000 * 24 * 30))
-      picker.$emit('pick', [start, end])
-    }
-  },
-  {
-    text: '最近三个月',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(start.getTime() - (3600 * 1000 * 24 * 90))
-      picker.$emit('pick', [start, end])
-    }
-  }
-]
-
-export function getTime(type) {
-  if (type === 'start') {
-    return new Date().getTime() - (3600 * 1000 * 24 * 90)
-  }
-  return new Date(new Date().toDateString())
-}
-
-export function debounce(func, wait, immediate) {
-  let timeout,
-    args,
-    context,
-    timestamp,
-    result
-
-  const later = function() {
-    // 据上一次触发时间间隔
-    const last = +new Date() - timestamp
-
-    // 上次被包装函数被调用时间间隔 last 小于设定时间间隔 wait
-    if (last < wait && last > 0) {
-      timeout = setTimeout(later, wait - last)
-    } else {
-      timeout = null
-      // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
-      if (!immediate) {
-        result = func.apply(context, args)
-        if (!timeout) context = args = null
+    if (key.includes('Start') && !key.includes('Time')) {
+      const otherKey = key.replace('Start', 'End')
+      const startVal = form[key]
+      const endVal = form[otherKey]
+      if (startVal !== undefined && endVal === undefined) {
+        form[otherKey] = startVal
+      }
+      if (endVal !== undefined && startVal === undefined) {
+        form[key] = endVal
       }
     }
   }
-
-  return function(...args) {
-    context = this
-    timestamp = +new Date()
-    const callNow = immediate && !timeout
-    // 如果延时不存在，重新设定延时
-    if (!timeout) timeout = setTimeout(later, wait)
-    if (callNow) {
-      result = func.apply(context, args)
-      context = args = null
-    }
-
-    return result
-  }
+}
+// 下划线转换驼峰
+export function toHump(name) {
+  return name.replace(/\_(\w)/g, function(all, letter) {
+    return letter.toUpperCase()
+  })
+}
+// 驼峰转换下划线
+export function toLine(name) {
+  return name.replace(/([A-Z])/g, '_$1').toLowerCase()
 }
 
-/**
- * This is just a simple version of deep copy
- * Has a lot of edge cases bug
- * If you want to use a perfect deep copy, use lodash's _.cloneDeep
- */
-export function deepClone(source) {
-  if (!source && typeof source !== 'object') {
-    throw new Error('error arguments', 'shallowClone')
+// 获取 obj 列表的 id，并以逗号隔开的字符串输出
+export function getIdString(list, prop) {
+  if (list.length === 0) {
+    return ''
   }
-  const targetObj = source.constructor === Array ? [] : {}
-  Object.keys(source).forEach((keys) => {
-    if (source[keys] && typeof source[keys] === 'object') {
-      targetObj[keys] = deepClone(source[keys])
-    } else {
-      targetObj[keys] = source[keys]
+  const ids = []
+  list.forEach(obj => {
+    if (obj.hasOwnProperty(prop)) {
+      ids.push(obj[prop])
     }
   })
-  return targetObj
+  return ids.join(',')
 }
-
-export function uniqueArr(arr) {
-  return Array.from(new Set(arr))
-}
-
-export function createUniqueString() {
-  const timestamp = `${+new Date()}`
-  const randomNum = `${parseInt((1 + Math.random()) * 65536)}`
-  return (+(randomNum + timestamp)).toString(32)
-}
-
-// 判断两个 Object 值是否相同
-export function isObjectValueEqual(a, b) {
-  const aProps = Object.getOwnPropertyNames(a)
-  const bProps = Object.getOwnPropertyNames(b)
-  if (aProps.length !== bProps.length) {
-    return false
-  }
-  for (let i = 0; i < aProps.length; i += 1) {
-    const propName = aProps[i]
-
-    const propA = a[propName]
-    const propB = b[propName]
-    if (propA !== propB) {
-      if ((typeof (propA) === 'object')) {
-        if (this.isObjectValueEqual(propA, propB)) {
-          return true
-        }
-        return false
-      }
-      return false
+export function setFormValue(form, data) { // 渲染表单数据
+  Object.keys(form).forEach(key => {
+    if (data[key] || data[key] === 0) {
+      form[key] = data[key]
     }
-    return false
-  }
-  return true
+  })
 }
+// convert routes to Navbar
+export function convertRoute2Nav(routes) {
+  if (routes === undefined) {
+    return []
+  }
+  if (Object.keys(routes).length === 0) {
+    return []
+  }
+  if (routes.length === 0) {
+    return []
+  }
+  const navbar = []
+  routes[1].children.forEach(route => {
+    // navbar.push(route)
+    // route.index = route.menuId
+    if (route.hasChildren && route.children.length === 1) {
+      navbar.push(route.children[0])
+    } else {
+      navbar.push(route)
+    }
 
-// 浮点数格式化
-export function numberFormat(number, decimals, decPoint, thousandsSep, roundtag) {
-  /*
-    * 参数说明：
-    * number：要格式化的数字
-    * decimals：保留几位小数
-    * decPoint：小数点符号
-    * thousandsSep：千分位符号
-    * roundtag:舍入参数，默认 "ceil" 向上取,"floor"向下取,"round" 四舍五入
-    * */
-  /* eslint-disable no-restricted-properties */
-  /* eslint-disable no-param-reassign */
-  number = (`${number}`).replace(/[^0-9+-Ee.]/g, '')
-  roundtag = roundtag || 'ceil' // "ceil","floor","round"
-  const n = !isFinite(+number) ? 0 : +number
-  const prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
-  const sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
-  const dec = (typeof decPoint === 'undefined') ? '.' : decPoint
-  let s = ''
-  const toFixedFix = function(o, m) {
-    const k = Math.pow(10, m)
-    return `${parseFloat(Math[roundtag](parseFloat((o * k).toFixed(m * 2))).toFixed(m * 2)) / k}`
-  }
-  s = (prec ? toFixedFix(n, prec) : `${Math.round(n)}`).split('.')
-  const re = /(-?\d+)(\d{3})/
-  while (re.test(s[0])) {
-    s[0] = s[0].replace(re, `$1${sep}$2`)
-  }
+    // if(route.parentId === '0'){
+    //   if(route.hasChildren){
+    //     route.children[0].children = []
+    //   }
+    //   navbar.push(route)
+    // }
+  })
 
-  if ((s[1] || '').length < prec) {
-    s[1] = s[1] || ''
-    s[1] += new Array((prec - s[1].length) + 1).join('0')
-  }
-  return s.join(dec)
+  navbar.sort((a, b) => {
+    return a.order - b.order
+  })
+
+  return navbar
 }
